@@ -33,6 +33,8 @@ public:
     Q_INVOKABLE void closeWindow(quint64 id);
     Q_INVOKABLE void closeWindowOrFocused(quint64 id = 0);
 
+    Q_INVOKABLE void toggleOverview();
+
 signals:
     void connected();
     void disconnected();

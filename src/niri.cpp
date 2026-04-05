@@ -112,6 +112,14 @@ void Niri::closeWindowOrFocused(quint64 id)
     sendAction(action);
 }
 
+void Niri::toggleOverview()
+{
+    QJsonObject action;
+    action["ToggleOverview"] = QJsonObject{};
+
+    sendAction(action);
+}
+
 void Niri::sendAction(const QJsonObject &action)
 {
     if (!isConnected()) {
