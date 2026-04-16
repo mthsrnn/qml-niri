@@ -22,7 +22,7 @@ void OverviewState::handleEvent(const QJsonObject &event)
             bool open = overviewObj["is_open"].toBool();
             if (m_isOpen != open) {
                 m_isOpen = open;
-                emit isOpenChanged();
+                emit overviewChanged();
             }
         }
     }

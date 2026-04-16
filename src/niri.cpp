@@ -28,13 +28,18 @@ Niri::Niri(QObject *parent)
     QObject::connect(m_ipcClient, &IPCClient::eventReceived,
                      m_windowModel, &WindowModel::handleEvent);
 
+    // Wire overview model
+    QObject::connect(m_ipcClient, &IPCClient::eventReceived,
+                 m_overviewState, &OverviewState::handleEvent);
+
     // Forward focused window changes
     QObject::connect(m_windowModel, &WindowModel::focusedWindowChanged,
                      this, &Niri::focusedWindowChanged);
 
     // Forward overview changes
-    QObject::connect(m_ipcClient, &IPCClient::eventReceived,
-                     m_overviewState, &OverviewState::handleEvent);
+    QObject::connect(m_overviewState, &OverviewState::overviewChanged, 
+                     this, &Niri::overviewChanged);
+
 }
 
 Niri::~Niri()
@@ -123,6 +128,10 @@ void Niri::toggleOverview()
     action["ToggleOverview"] = QJsonObject{};
 
     sendAction(action);
+}
+
+bool Niri::overview() const {
+    return m_overviewState->isOpen(); 
 }
 
 void Niri::sendAction(const QJsonObject &action)
