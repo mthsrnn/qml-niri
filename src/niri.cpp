@@ -8,6 +8,7 @@ Niri::Niri(QObject *parent)
     , m_ipcClient(new IPCClient(this))
     , m_workspaceModel(new WorkspaceModel(this))
     , m_windowModel(new WindowModel(this))
+    , m_overviewState(new OverviewState(this))
 {
     // Wire up IPC client signals
     QObject::connect(m_ipcClient, &IPCClient::connected,
@@ -30,6 +31,10 @@ Niri::Niri(QObject *parent)
     // Forward focused window changes
     QObject::connect(m_windowModel, &WindowModel::focusedWindowChanged,
                      this, &Niri::focusedWindowChanged);
+
+    // Forward overview changes
+    QObject::connect(m_ipcClient, &IPCClient::eventReceived,
+                     m_overviewState, &OverviewState::handleEvent);
 }
 
 Niri::~Niri()
